@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LayoutGrid, TrendingUp, ListTodo, PieChart, Shield, PlusCircle, LogOut, ChevronRight, Menu, X, Wallet, ArrowUpCircle, ArrowDownCircle, Search, Filter, Brain } from 'lucide-react';
 import { useStore } from './store/useStore';
 import SummaryStats from './components/SummaryStats';
@@ -20,7 +20,11 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { role, setRole } = useStore();
+  const { role, setRole, fetchTransactions } = useStore();
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   const toggleRole = () => {
     setRole(role === 'admin' ? 'viewer' : 'admin');

@@ -19,16 +19,28 @@ const FinanceCharts = () => {
 
   const COLORS = ['#6366f1', '#ec4899', '#10b981', '#f59e0b', '#ef4444', '#a855f7'];
 
-  // Balance trend (last 7 days)
-  const trendData = [
-    { name: 'Mon', balance: 1400 },
-    { name: 'Tue', balance: 1650 },
-    { name: 'Wed', balance: 1800 },
-    { name: 'Thu', balance: 1720 },
-    { name: 'Fri', balance: 2150 },
-    { name: 'Sat', balance: 2400 },
-    { name: 'Sun', balance: 2350 },
-  ];
+  // Dynamically calculate balance trend
+  const sortedTx = [...transactions].sort((a, b) => new Date(a.date) - new Date(b.date));
+  let runningBalance = 0;
+  const trendMap = {};
+
+  sortedTx.forEach(tx => {
+    const dateStr = new Date(tx.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    runningBalance += tx.type === 'income' ? tx.amount : -tx.amount;
+    trendMap[dateStr] = runningBalance;
+  });
+
+  let trendData = Object.keys(trendMap).map(date => ({
+    name: date,
+    balance: trendMap[date]
+  }));
+
+  if (trendData.length === 0) {
+    trendData = [{ name: 'No data', balance: 0 }];
+  } else if (trendData.length > 14) {
+    // Show last 14 unique dates max to avoid crowding
+    trendData = trendData.slice(-14);
+  }
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

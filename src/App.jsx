@@ -18,6 +18,7 @@ const sidebarItems = [
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { role, setRole } = useStore();
 
@@ -27,8 +28,12 @@ function App() {
 
   return (
     <div className="app-container" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-deep)' }}>
+      {/* Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
       {/* Sidebar */}
-      <aside className={`sidebar-container glass-card ${!isSidebarOpen ? 'collapsed' : ''}`} 
+      <aside className={`sidebar-container glass-card ${!isSidebarOpen ? 'collapsed' : ''} ${isMobileMenuOpen ? 'mobile-open' : ''}`} 
         style={{
           width: isSidebarOpen ? '240px' : '80px',
           height: 'calc(100vh - 2rem)',
@@ -88,19 +93,24 @@ function App() {
       </aside>
 
       {/* Main Content */}
-      <main style={{ 
+      <main className="main-content" style={{ 
         marginLeft: isSidebarOpen ? '270px' : '120px', 
         flex: 1, 
         padding: '1.5rem 2rem',
         transition: 'margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
       }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-          <div>
-            <h1 style={{ fontSize: '1.5rem', marginBottom: '0.125rem' }}>Welcome Back!</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Track your financial progress and insights.</p>
+        <header className="header-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <Menu size={24} />
+            </button>
+            <div>
+              <h1 style={{ fontSize: '1.5rem', marginBottom: '0.125rem' }}>Welcome Back!</h1>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Track your financial progress and insights.</p>
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className="header-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
             {/* Role Toggle */}
             <div className="glass-pill" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.375rem 0.5rem' }}>
               <div style={{ 

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Save, ArrowDownCircle, ArrowUpCircle } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
 const categories = ['Salary', 'Freelance', 'Food', 'Transport', 'Entertainment', 'Shopping', 'Rent', 'Utilities'];
 
-const TransactionModal = ({ isOpen, onClose }) => {
-  const { addTransaction } = useStore();
+const TransactionModal = ({ isOpen, onClose, initialData }) => {
+  const { addTransaction, editTransaction } = useStore();
   const [formData, setFormData] = useState({
     amount: '',
     category: 'Salary',
@@ -15,14 +15,29 @@ const TransactionModal = ({ isOpen, onClose }) => {
     note: ''
   });
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    } else {
+      setFormData({ amount: '', category: 'Salary', type: 'income', date: new Date().toISOString().split('T')[0], note: '' });
+    }
+  }, [initialData, isOpen]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.amount || !formData.note) return;
     
-    addTransaction({
-      ...formData,
-      amount: parseFloat(formData.amount)
-    });
+    if (initialData && initialData.id) {
+       editTransaction({
+         ...formData,
+         amount: parseFloat(formData.amount)
+       });
+    } else {
+       addTransaction({
+         ...formData,
+         amount: parseFloat(formData.amount)
+       });
+    }
     
     setFormData({ amount: '', category: 'Salary', type: 'income', date: new Date().toISOString().split('T')[0], note: '' });
     onClose();
@@ -40,7 +55,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
             style={{ width: '100%', maxWidth: '500px', padding: '2rem', border: '1px solid rgba(255,255,255,0.1)' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-              <h2 style={{ fontSize: '1.5rem' }}>Add Transaction</h2>
+              <h2 style={{ fontSize: '1.5rem' }}>{initialData ? 'Edit Transaction' : 'Add Transaction'}</h2>
               <button onClick={onClose} className="btn-icon" style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)' }}>
                 <X size={24} />
               </button>

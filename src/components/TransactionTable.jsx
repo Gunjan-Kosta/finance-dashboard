@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { Search, Filter, Trash2, Edit3, MoreVertical, Download, ChevronLeft, ChevronRight, Inbox } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import TransactionModal from './TransactionModal';
 
 const categories = ['All', 'Salary', 'Freelance', 'Food', 'Transport', 'Entertainment', 'Shopping', 'Rent', 'Utilities'];
 
 const TransactionTable = () => {
   const { getFilteredTransactions, deleteTransaction, role, filters, setFilters } = useStore();
   const transactions = getFilteredTransactions();
+  const [editingTx, setEditingTx] = useState(null);
 
   const handleSearch = (e) => setFilters({ search: e.target.value });
   const handleCategory = (e) => setFilters({ category: e.target.value });
@@ -117,8 +119,8 @@ const TransactionTable = () => {
                            <button onClick={() => deleteTransaction(tx.id)} className="btn btn-secondary btn-icon" style={{ borderColor: 'transparent', color: 'var(--expense)' }}>
                              <Trash2 size={16} />
                            </button>
-                           <button className="btn btn-secondary btn-icon" style={{ borderColor: 'transparent' }}>
-                             <MoreVertical size={16} />
+                           <button onClick={() => setEditingTx(tx)} className="btn btn-secondary btn-icon" style={{ borderColor: 'transparent' }}>
+                             <Edit3 size={16} />
                            </button>
                         </div>
                       </td>
@@ -139,6 +141,12 @@ const TransactionTable = () => {
           </div>
         )}
       </div>
+
+      <TransactionModal 
+        isOpen={!!editingTx} 
+        onClose={() => setEditingTx(null)} 
+        initialData={editingTx} 
+      />
     </div>
   );
 };

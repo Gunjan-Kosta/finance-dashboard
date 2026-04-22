@@ -131,11 +131,13 @@ const TransactionTable = () => {
         )}
 
         {/* Pagination placeholder */}
-        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', alignItems: 'center', color: 'var(--text-muted)' }}>
-          <span style={{ fontSize: '0.875rem' }}>Showing 1 - {transactions.length} of {transactions.length}</span>
+        {transactions.length > 0 && (
+          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', alignItems: 'center', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.875rem' }}>Showing 1 - {transactions.length} of {transactions.length}</span>
           <button className="btn btn-secondary btn-icon" disabled><ChevronLeft size={16} /></button>
           <button className="btn btn-secondary btn-icon" disabled><ChevronRight size={16} /></button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

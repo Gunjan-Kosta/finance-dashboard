@@ -70,10 +70,10 @@ function App() {
 
         <div className="sidebar-footer" style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem' }}>
-             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(45deg, #6366f1, #a855f7)', display: 'grid', placeItems: 'center', fontWeight: 'bold' }}>JD</div>
+             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(45deg, #6366f1, #a855f7)', display: 'grid', placeItems: 'center', fontWeight: 'bold' }}>AD</div>
              {isSidebarOpen && (
                <div style={{ overflow: 'hidden' }}>
-                 <p style={{ fontSize: '0.875rem', fontWeight: '600' }}>John Doe</p>
+                 <p style={{ fontSize: '0.875rem', fontWeight: '600' }}>Admin</p>
                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Account: 1234****</p>
                </div>
              )}

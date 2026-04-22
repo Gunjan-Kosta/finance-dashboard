@@ -2,6 +2,8 @@
 
 A premium, interactive finance dashboard built with **React** and **Vanilla CSS**. Designed for high-end aesthetics with glassmorphism, smooth animations, and robust functionality.
 
+🚀 **Live Demo:** [https://gunjan-kosta.github.io/finance-dashboard/](https://gunjan-kosta.github.io/finance-dashboard/)
+
 ## ✨ Key Features
 
 -   **Live Financial Summary**: Real-time overview of Balance, Income, and Expenses.
